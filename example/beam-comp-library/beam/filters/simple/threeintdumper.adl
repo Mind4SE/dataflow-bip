@@ -1,0 +1,14 @@
+primitive beam.filters.simple.threeintdumper {
+  provides beam.BeamFilter as filterctrl; 
+
+  @BeamInterface(prod=0, cons=1, peek=1)
+  provides beam.links.SingleInt as in1;
+
+  @BeamInterface(prod=0, cons=1, peek=1)
+  provides beam.links.SingleInt as in2;
+
+  @BeamInterface(prod=0, cons=1, peek=1)
+  provides beam.links.SingleInt as in3;
+
+  source threeintdumper.c;
+}

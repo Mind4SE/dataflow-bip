@@ -1,0 +1,6 @@
+primitive beam.generator.dualrandom {
+  provides beam.BeamFilter as filterctrl;
+
+  requires beam.links.DualInt as out;
+  source dualrandom.c;
+}

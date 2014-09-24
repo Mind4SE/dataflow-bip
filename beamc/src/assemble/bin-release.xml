@@ -1,0 +1,39 @@
+<assembly>
+    
+    <id>bin</id>
+    
+    <formats>
+        <format>zip</format>
+        <format>tar.gz</format>
+        <format>tar.bz2</format>
+    </formats>
+    
+    <includeBaseDirectory>true</includeBaseDirectory>
+    
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>ext</outputDirectory>
+            
+			<!-- Add all other dependencies needed for ext folder -->
+            <includes>
+                <include>${project.groupId}:beam-frontend</include>
+                <include>${project.groupId}:beam-backend</include>
+                
+                <!-- 
+                <include>org.mod4j.org.eclipse.emf:ecore</include>
+                -->
+                <!-- does not work
+                <include>ujf.verimag.bip:metamodel</include>
+                <include>ujf.verimag.bip:parser</include>
+                <include>ujf.verimag.bip:C2bip</include>
+                <include>ujf.verimag.bip:BIP-common-backend</include>
+                <include>ujf.verimag.bip:BIP-bip2src-backend</include>
+                <include>org.ow2.think:codegen</include>
+                -->
+            </includes>
+             
+            <fileMode>0644</fileMode>
+        </dependencySet>
+    </dependencySets>
+    
+</assembly>

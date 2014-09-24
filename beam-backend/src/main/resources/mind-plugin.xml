@@ -1,0 +1,17 @@
+<plugin id="org.ow2.mind.beam-backend" name="Beam Backend Plugin">
+
+	<extension point="org.ow2.mind.adl.definition-source-generators">
+		<visitor class="org.ow2.mind.beam.adl.BipDefinitionSourceGenerator" />
+	</extension>
+
+	<extension point="org.ow2.mind.adl.instance-source-generators">
+		<visitor class="org.ow2.mind.beam.adl.BipInstanceSourceGenerator" />
+	</extension>
+
+	<extension point="org.ow2.mind.mindc.command-line-options">
+		<cmdFlag id="org.ow2.mind.beam.BIPBackend" 
+			shortName="k" longName="beam-bip-backend"
+			description="Enable the BIP backend generator" handler="org.ow2.mind.beam.BackendCommandLineHandler" />
+	</extension>
+
+</plugin>

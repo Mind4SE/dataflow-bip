@@ -1,0 +1,23 @@
+primitive beam.filters.simple.dualintdumper {
+  provides beam.BeamFilter as filterctrl; 
+
+  /*
+   * SSZ FIX
+   * 
+   * Without the @BeamInterface, code generation in the st.beam.fifo.scheduler.Templates (.stc) at line 78
+   * (in beam-frontend) fails since it cannot find its (iface) object and its peek field.
+   * Search <server_ifaces.(filter1).(iface).peek> in the StringTemplate.
+   * Note: the iface object is not a Fractal Interface but the annotation object.
+   * 
+   * This led to empty right-part in the generated scheduler C code, hence this kind of error:
+   * build\beam\generated\Scheduler_impl0.c:43:94: error: expected expression before ')' token
+   *      (CALL(buffer__joiner_out__dumper_in, current_size)() >= )
+   * (Note: No value to compare to in the >= )
+   *
+   * SSZ - The following annotation arguments are a blind guess, inspired from the annotations in the "threeintdumper" and "singleintdumper" definition.
+   * Since we are in the "dualintdumper", this should be ok ?
+   */
+  @BeamInterface(prod=0, cons=1, peek=1)
+  provides beam.links.DualInt as in;
+  source dualintdumper.c;
+}

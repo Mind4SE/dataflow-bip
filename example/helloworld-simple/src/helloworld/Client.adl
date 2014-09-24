@@ -1,0 +1,7 @@
+primitive helloworld.Client {
+  provides beam.BeamFilter as filterctrl;
+
+  requires Service as s;
+  
+  source client.c;
+}

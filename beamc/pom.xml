@@ -1,0 +1,142 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>mind-compiler</artifactId>
+		<groupId>org.ow2.mind</groupId>
+		<version>2.1-SNAPSHOT</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	
+	<artifactId>beamc</artifactId>
+	<packaging>pom</packaging>
+	<name>Beam Compiler</name>
+<!-- <version>0.3-alpha-2-SNAPSHOT</version> -->
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.objectweb.fractal.fractaladl</groupId>
+			<artifactId>fractal-adl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>mindc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.objectweb.fractal.fractaladl</groupId>
+			<artifactId>ast-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>common-frontend</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>adl-frontend</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>adl-backend</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>beam-backend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>beam-frontend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ujf.verimag.bip</groupId>
+			<artifactId>metamodel</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../beam-backend/externals/ujf.verimag.bip.metamodel_wip.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>ujf.verimag.bip</groupId>
+			<artifactId>parser</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../beam-backend/externals/ujf.verimag.bip.parser_wip.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>ujf.verimag.bip</groupId>
+			<artifactId>C2bip</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../beam-backend/externals/C_wip.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ow2.think</groupId>
+			<artifactId>codegen</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../beam-backend/externals/codegen.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mod4j.org.eclipse.emf</groupId>
+			<artifactId>common</artifactId>
+			<version>2.5.0</version>
+			<type>jar</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mod4j.org.eclipse.emf</groupId>
+			<artifactId>ecore</artifactId>
+			<version>2.5.0</version>
+			<type>jar</type>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<groups>${test.groups}</groups>
+					<systemPropertyVariables>
+						<default.file.level>FINEST</default.file.level>
+						<loggers.outfile>${project.build.testOutputDirectory}/test-log.txt</loggers.outfile>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+
+			<plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <!-- Generates binary assemblies at package phase. -->
+                    <execution>
+                        <id>bin-packages</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assemble/bin-release.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+		</plugins>
+	</build>
+	
+</project>

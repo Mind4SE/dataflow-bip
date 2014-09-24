@@ -1,0 +1,17 @@
+primitive beam.filters.simple.threecopies {
+  provides beam.BeamFilter as filterctrl;
+
+  @BeamInterface(cons=1, peek=1, prod=0)
+  provides beam.links.SingleInt as in;
+
+  @BeamInterface(cons=0, peek=0, prod=1)
+  requires beam.links.SingleInt as out1;
+
+  @BeamInterface(cons=0, peek=0, prod=1)
+  requires beam.links.SingleInt as out2;
+
+  @BeamInterface(cons=0, peek=0, prod=1)
+  requires beam.links.SingleInt as out3;
+
+  source threecopies.c;
+}

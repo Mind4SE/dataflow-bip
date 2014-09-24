@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>mind-compiler</artifactId>
+		<groupId>org.ow2.mind</groupId>
+		<version>2.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>beam-backend</artifactId>
+	<!-- <version>0.3-alpha-2-SNAPSHOT</version> -->
+	<name>beam-backend</name>
+	<description>Beam Backend</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>mindc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>beam-frontend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mod4j.org.eclipse.emf</groupId>
+			<artifactId>ecore</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<!-- SSZ add <dependency> <groupId>org.eclipse.emf</groupId> <artifactId>org.eclipse.emf.ecore</artifactId> 
+			<version>2.7.0-v20110605-0747</version> </dependency> <dependency> <groupId>org.eclipse.emf</groupId> 
+			<artifactId>org.eclipse.emf.common</artifactId> <version>2.7.0-v20110605-0747</version> 
+			</dependency> -->
+
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>adl-backend</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ujf.verimag.bip</groupId>
+			<artifactId>metamodel</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/externals/ujf.verimag.bip.metamodel_wip.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>ujf.verimag.bip</groupId>
+			<artifactId>parser</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/externals/ujf.verimag.bip.parser_wip.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>ujf.verimag.bip</groupId>
+			<artifactId>C2bip</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/externals/C_wip.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>ujf.verimag.bip</groupId>
+			<artifactId>BIP-common-backend</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/externals/backend-common_wip.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>ujf.verimag.bip</groupId>
+			<artifactId>BIP-bip2src-backend</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/externals/bip2src_wip.jar</systemPath>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.ow2.think</groupId>
+			<artifactId>codegen</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/externals/codegen.jar</systemPath>
+		</dependency>
+
+	</dependencies>
+
+</project>

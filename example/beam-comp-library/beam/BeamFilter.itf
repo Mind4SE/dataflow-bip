@@ -1,0 +1,5 @@
+
+interface beam.BeamFilter {
+  void act(int x);
+  int activated(void);
+}

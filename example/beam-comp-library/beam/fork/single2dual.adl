@@ -1,0 +1,38 @@
+primitive beam.fork.single2dual {
+  provides beam.BeamFilter as filterctrl;
+
+  /*
+   * SSZ FIX - See below
+   * Adapted for values as a blind guess from "maxfilter" "slidingwindowfilter" etc
+   */
+  @BeamInterface(cons=0, peek=0, prod=2)
+  requires beam.links.DualInt as out;
+
+  /*
+   * SSZ FIX
+   * 
+   * Without the @BeamInterface, code generation in the st.beam.fifo.scheduler.Templates (.stc) at line 78
+   * (in beam-frontend) fails since it cannot find its (iface) object and its peek field.
+   * Search <server_ifaces.(filter1).(iface).peek> in the StringTemplate.
+   * Note: the iface object is not a Fractal Interface but the annotation object.
+   * 
+   * This led to empty right-part in the generated scheduler C code, hence this kind of error:
+   * build\beam\generated\Scheduler_impl0.c:52:96: error: expected expression before ')' token
+   *      (CALL(buffer__forker_out2__joiner_in2, current_size)() >= ) && (CALL(buffer__maxfilter1_out__joiner_in1, current_size)() >= )
+   *
+   * SSZ - The following annotation arguments are a blind guess, inspired from the annotations in the "threeintdumper" and "singleintdumper" definition that have multiple inputs as well...
+   */
+  
+  @BeamInterface(prod=0, cons=1, peek=1)
+  provides beam.links.SingleInt as in1;
+  
+  /*
+   * SSZ FIX
+   * Same as above
+   */
+  
+  @BeamInterface(prod=0, cons=1, peek=1)
+  provides beam.links.SingleInt as in2;
+
+  source single2dual.c;
+}

@@ -1,0 +1,47 @@
+import boot.Bootstrap;
+
+@Singleton
+//@BeamScheduler(kind="existing", arg={"helloworld/myscheduler.c"})
+@BeamScheduler(kind="template", arg={"PeekAwareRoundRobin"})
+composite helloworld.HelloworldApplication {
+  contains Bootstrap as bootstrap;
+
+  @BeamFilter
+  contains beam.generator.random as generator;
+
+  @BeamFilter
+  contains beam.filters.simple.threecopies as forker3;
+
+  @BeamFilter
+  contains beam.filters.simple.slidingwindowpeek(4) as maxfilter4;
+
+  @BeamFilter
+  contains beam.filters.simple.slidingwindowpeek10(10) as maxfilter10;
+
+  @BeamFilter
+  contains beam.filters.simple.slidingwindowpeek30(30) as maxfilter30;
+
+  @BeamFilter
+  contains beam.filters.simple.threeintdumper as dumper;
+
+  @BeamFifo(fifosize=10)
+  binds generator.output to forker3.input;
+
+  @BeamFifo(fifosize=10)
+  binds forker3.output1 to maxfilter4.input;
+
+  @BeamFifo(fifosize=10)
+  binds forker3.output2 to maxfilter10.input;
+
+  @BeamFifo(fifosize=10)
+  binds forker3.output3 to maxfilter30.input;
+
+  @BeamFifo(fifosize=1)
+  binds maxfilter4.output to dumper.input1;
+
+  @BeamFifo(fifosize=1)
+  binds maxfilter10.output to dumper.input2;
+
+  @BeamFifo(fifosize=1)
+  binds maxfilter30.output to dumper.input3;
+}

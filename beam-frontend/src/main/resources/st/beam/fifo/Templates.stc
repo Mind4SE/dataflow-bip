@@ -1,0 +1,132 @@
+template st.beam.fifo.Templates {
+
+$${
+
+SimpleFifo(type,size,id) ::= <<
+#include \<beam/template/buffer.h\>
+/* the fifo type */
+// use macro to create fifo's methods
+FIFO_SIZE(<type>, <size>, <id>)
+FIFO_INIT(<type>, <id>)
+FIFO_PUSH(<type>, <size>, <id>)
+FIFO_POP(<type>, <size>, <id>)
+FIFO_TOP(<type>, <id>)
+FIFO_PEEK(<type>, <size>, <id>)
+FIFO_REQUEUE(<type>, <id>)
+
+/* Server method for GET*/
+<type> METH(buffer,get) (void) {
+   return FIFO_POP_N(<type>, <id>)(&(PRIVATE.myFifo));
+}
+/* Server method for PUT */
+void METH(buffer, put)(<type> x) {
+   FIFO_PUSH_N(<type>, <id>)(x, &(PRIVATE.myFifo));
+}
+
+/* Server method for PEEK */
+<type> METH(buffer, peek)(int i) {
+   return FIFO_PEEK_N(<type>, <id>)(i, &(PRIVATE.myFifo));
+}
+
+/* Server Method for buffer::size */
+int METH(buffer, size)(void) {
+ return FIFO_SIZE_N(<type>, <id>)(&(PRIVATE.myFifo));
+}
+
+/* Server Method for control::init */
+void METH(control,init)(void) {
+ FIFO_INIT_N(<type>, <id>)(&(PRIVATE.myFifo));
+}
+/* Server Method for control::max_size */ 
+int METH(control, max_size)(void) {
+ return <size>;
+}
+/* Server Method for control::current_size */
+int METH(control, current_size)(void) {
+ return FIFO_SIZE_N(<type>, <id>)(&(PRIVATE.myFifo));
+}
+
+>>
+
+SimpleFifoData(type,size,id) ::= <<
+#define TYPE_NAME(ptype,id) fifo_##ptype##id##_t
+#define FIFO_TYPE(ptype, size, id)      \
+typedef struct { \
+ptype data[size];\
+int s;\
+int e;\
+} TYPE_NAME(ptype,id);
+FIFO_TYPE(<type>, <size>, <id>)
+struct { TYPE_NAME(<type>, <id>) myFifo;} PRIVATE;
+>>
+
+
+DynamicFifo(type,size,id) ::= <<
+#include \<beam/template/dynbuffer.h\>
+/* the fifo type */
+// use macro to create fifo's methods
+
+FIFO_SIZE(<type>, <size>, <id>)
+FIFO_INIT(<type>, <id>)
+FIFO_PUSH(<type>, <size>, <id>)
+FIFO_POP(<type>, <size>, <id>)
+FIFO_TOP(<type>, <id>)
+FIFO_PEEK(<type>, <size>, <id>)
+
+/* Server method for GET*/
+<type> METH(buffer,get) (void) {
+   return FIFO_POP_N(<type>, <id>)(&(PRIVATE.myFifo));
+}
+/* Server method for PUT */
+void METH(buffer, put)(<type> x) {
+   FIFO_PUSH_N(<type>, <id>)(x, &(PRIVATE.myFifo));
+}
+
+/* Server method for PEEK */
+<type> METH(buffer, peek)(int i) {
+   return FIFO_PEEK_N(<type>, <id>)(i, &(PRIVATE.myFifo));
+}
+
+/* Server Method for buffer::size */
+int METH(buffer, size)(void) {
+ return FIFO_SIZE_N(<type>, <id>)(&(PRIVATE.myFifo));
+}
+
+/* Server Method for control::init */
+void METH(control,init)(void) {
+ FIFO_INIT_N(<type>, <id>)(&(PRIVATE.myFifo));
+}
+/* Server Method for control::max_size */ 
+int METH(control, max_size)(void) {
+ return <size>;
+}
+/* Server Method for control::current_size */
+int METH(control, current_size)(void) {
+ return FIFO_SIZE_N(<type>, <id>)(&(PRIVATE.myFifo));
+}
+>>
+
+DynamicFifoData(type,size,id) ::= <<
+#define TYPE_NAME(ptype,id) dynfifo_##ptype##id##_t
+#define ELT_TYPE_NAME(ptype,id) dynfifo_elt_##ptype##id##_t
+
+#define FIFO_ELT_TYPE(ptype,id) \
+typedef struct dynfifo_elt_##ptype##id { \
+  ptype data; \
+  struct dynfifo_elt_##ptype##id *next; \
+  struct dynfifo_elt_##ptype##id *prev; \
+} ELT_TYPE_NAME(ptype,id);
+
+#define FIFO_TYPE(ptype,id)      \
+typedef struct { \
+  ELT_TYPE_NAME(ptype,id) *first; \
+  ELT_TYPE_NAME(ptype,id) *last; \
+  int size; \
+} TYPE_NAME(ptype,id);
+
+FIFO_ELT_TYPE(<type>, <id>)
+FIFO_TYPE(<type>, <id>)
+struct { TYPE_NAME(<type>, <id>) myFifo;} PRIVATE;
+>>
+}$$
+}

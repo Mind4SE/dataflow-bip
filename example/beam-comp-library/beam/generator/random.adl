@@ -1,0 +1,6 @@
+primitive beam.generator.random {
+  provides beam.BeamFilter as filterctrl;
+
+  requires beam.links.SingleInt as out;
+  source random.c;
+}

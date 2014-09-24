@@ -1,0 +1,18 @@
+<plugin id="org.ow2.mind.beam-frontend" name="Beam Frontend Plugin">
+
+	<extension point="org.ow2.mind.predefined-annotations">
+		<annotation package="org.ow2.mind.beam.annotation" />
+	</extension>
+
+	<extension point="org.ow2.mind.mindc.command-line-options">
+		<cmdFlag id="org.ow2.mind.beam.BIPOutput" shortName="b"
+			longName="beam-bip" description="Enable BIP output"
+			handler="org.ow2.mind.beam.CommandLineHandler" />
+
+		<cmdAppendOption id="org.ow2.mind.beam.Debug"
+			longName="beam-exec-debug" description="Enable debug exec trace for given point"
+			argDesc="&lt;item&gt;" separator=":"
+			handler="org.ow2.mind.beam.CommandLineHandler" />
+	</extension>
+
+</plugin>

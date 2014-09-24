@@ -1,0 +1,18 @@
+import boot.Main;
+
+composite helloworld.Helloworld {
+  provides Main as main;
+  contains Scheduler as sched;
+  binds this.main to sched.main;
+
+
+  @BeamFilter
+  contains Client as client;
+
+  @BeamFilter
+  contains Server as server;
+
+  @BeamFifo(fifosize=10)
+  binds client.s to server.s;
+
+}

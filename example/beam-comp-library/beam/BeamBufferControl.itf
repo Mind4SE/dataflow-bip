@@ -1,0 +1,5 @@
+interface beam.BeamBufferControl {
+  void init(void);
+  int max_size(void);
+  int current_size(void);
+}

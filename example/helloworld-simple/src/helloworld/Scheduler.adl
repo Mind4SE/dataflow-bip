@@ -1,0 +1,8 @@
+import boot.Main;
+
+primitive helloworld.Scheduler {
+  
+  provides Main as main;
+ 
+  source scheduler.c;
+}

@@ -1,0 +1,6 @@
+
+interface helloworld.Service {
+  int get(void);
+  void put(int x);
+};
+

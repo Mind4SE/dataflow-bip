@@ -1,0 +1,13 @@
+primitive beam.filters.simple.slidingwindowpeek10(w) {
+  provides beam.BeamFilter as filterctrl;
+
+  attribute int width = w;
+
+  @BeamInterface(cons=1, peek=2, prod=0)
+  provides beam.links.SingleInt as in;
+
+  @BeamInterface(cons=0, peek=0, prod=10)
+  requires beam.links.SingleInt as out;
+
+  source slidingwindowpeek.c;
+}

@@ -1,0 +1,106 @@
+template st.beam.scheduler.Templates {
+
+$${
+
+GreedyRoundRobin(filters,fifos, includes) ::= <<
+<includes:{#include <it> <\n>}>
+
+int METH(main, main) (int argc, char *argv[]){
+  <fifos:{CALL(<it.name>, init)();<\n>}>
+
+  for(;;){
+    <filters:{CALL(<it.name>, act)(1);<\n>}>
+  }
+  return 0;
+}
+>>
+
+RoundRobin(filters,fifos, includes) ::= <<
+<includes:{#include <it> <\n>}>
+
+int METH(main, main) (int argc, char *argv[]){
+  <fifos:{CALL(<it.name>, init)();<\n>}>
+
+  for(;;){
+    <filters:{CALL(<it.name>, act)(1);<\n>}>
+  }
+  return 0;
+}
+>>
+
+BegExecComp(comp) ::= "Begining execution of <comp>\n"
+EndExecComp(comp) ::= "Ending execution of <comp>\n"
+ 
+DebugPrint(debug, message) ::= <<
+<if(debug)>
+	printf("<message>");
+<endif>
+>>
+
+PeekAwareRoundRobin(filters, no_input_filters, fifos, includes, fifos_for_comps, server_ifaces, debug, debugfifosize) ::= <<
+
+int METH(main, main) (int argc, char *argv[]){
+   int total_exec = 0;
+  <DebugPrint(debug=debug, message="Buffer Init\\n")>
+
+  <fifos:{CALL(<it.name>, init)();<\n>}>
+
+  <DebugPrint(debug=debug, message="End of Buffer Init\\n")>
+
+  for(;;){
+    int prev = total_exec;
+    <no_input_filters:{
+
+
+if (CALL(<it.name>, activated)()){<\n>
+<DebugPrint(debug=debug, message=BegExecComp(it.name))>
+    CALL(<it.name>, act)(1); <\n>
+    total_exec++;
+
+
+  <if(debugfifosize)>
+  printf("FIFOTRACEBEGIN\n");
+  <server_ifaces.keys:{filter1fifotrace|
+       <server_ifaces.(filter1fifotrace).keys:{iface| 
+        printf("FIFOSIZETRACE <fifos_for_comps.(filter1fifotrace).(iface).name> %d\n", CALL(<fifos_for_comps.(filter1fifotrace).(iface).name>, current_size)());
+       }>
+  }>
+  printf("FIFOTRACEEND\n");
+  <endif>
+
+<DebugPrint(debug=debug, message=EndExecComp(it.name))>
+}<\n>
+<\n>}>
+
+
+    <server_ifaces.keys:{filter1|
+    if (
+    <server_ifaces.(filter1).keys:{iface| (CALL(<fifos_for_comps.(filter1).(iface).name>, current_size)() >= <server_ifaces.(filter1).(iface).peek>)}; separator=" && ">
+       )\{
+<DebugPrint(debug=debug, message=BegExecComp(filter1))>
+CALL(<filter1>, act)(1);
+total_exec++;
+
+  <if(debugfifosize)>
+  printf("FIFOTRACEBEGIN\n");
+  <server_ifaces.keys:{filter1fifotrace|
+       <server_ifaces.(filter1fifotrace).keys:{iface| 
+        printf("FIFOSIZETRACE <fifos_for_comps.(filter1fifotrace).(iface).name> %d\n", CALL(<fifos_for_comps.(filter1fifotrace).(iface).name>, current_size)());
+       }>
+  }>
+  printf("FIFOTRACEEND\n");
+  <endif>
+
+
+<DebugPrint(debug=debug, message=EndExecComp(filter1))>\}
+  }>
+ if (total_exec == prev) {
+  printf("HALTING, NOTHING MORE TO EXECUTE (total: %d)\n", total_exec);
+  for(;;);
+ }
+}
+  return 0;
+}
+>>
+}$$
+}

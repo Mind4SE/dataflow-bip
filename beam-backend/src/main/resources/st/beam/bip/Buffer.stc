@@ -1,0 +1,35 @@
+template st.beam.bip.Buffer {
+
+$${
+
+SimpleFifo(type,size,id) ::= <<
+#ifndef <type>__<id>__BUFFER
+#define <type>__<id>__BUFFER
+
+#include \<beam/template/buffer.h\>
+
+#define TYPE_NAME(ptype,id) fifo_##ptype##id##_t
+#define FIFO_TYPE(ptype, size, id)      \
+typedef struct { \
+ptype data[size];\
+int s;\
+int e;\
+} TYPE_NAME(ptype,id);
+FIFO_TYPE(<type>, <size>, <id>)
+// struct { TYPE_NAME(<type>, <id>) myFifo;} PRIVATE;
+
+/* the fifo type */
+// use macro to create fifo's methods
+FIFO_SIZE(<type>, <size>, <id>)
+FIFO_INIT(<type>, <id>)
+FIFO_PUSH(<type>, <size>, <id>)
+FIFO_POP(<type>, <size>, <id>)
+FIFO_TOP(<type>, <id>)
+FIFO_PEEK(<type>, <size>, <id>)
+FIFO_REQUEUE(<type>, <id>)
+
+#endif /* <type>__<id>__BUFFER */
+
+>>
+}$$
+}

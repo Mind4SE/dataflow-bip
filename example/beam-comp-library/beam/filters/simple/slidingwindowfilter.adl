@@ -1,0 +1,27 @@
+primitive beam.filters.simple.slidingwindowfilter {
+  provides beam.BeamFilter as filterctrl;
+
+  @BeamInterface(cons=1, peek=2, prod=0)
+  provides beam.links.SingleInt as in;
+
+  @BeamInterface(cons=0, peek=0, prod=2)
+  requires beam.links.SingleInt as out;
+
+	data {{
+		/** SSZ quickfix for new PRIVATE data format
+		typedef struct {
+			int history[256];
+			int init_hack;
+			int ptr;
+		} slidingwindfilter_t;
+		slidingwindfilter_t PRIVATE;
+		*/
+		struct {
+			int history[256];
+			int init_hack;
+			int ptr;
+		} PRIVATE;
+	}};
+
+  source slidingwindowfilter.c;
+}

@@ -1,0 +1,46 @@
+import boot.Bootstrap;
+
+@Singleton
+
+// SSZ: In the BeamSchedulerAnnotationProcessor there was an error raised at line 193
+// saying "no such attribute: "fifos_for_comps"", which does not exist in the "RoundRobin"
+// rule of the st.beam.scheduler.Templates StringTemplate but the PeekAwareRoundRobin has it.
+//@BeamScheduler(kind="template", arg={"RoundRobin"})
+@BeamScheduler(kind="template", arg={"PeekAwareRoundRobin"})
+composite helloworld.HelloworldApplication {
+  contains Bootstrap as bootstrap;
+
+  @BeamFilter
+  contains beam.generator.dualrandom as generator;
+
+  @BeamFilter
+  contains beam.fork.dual2single as forker;
+
+  @BeamFilter
+  contains beam.filters.simple.slidingwindowfilter as maxfilter1;
+
+  // @BeamFilter
+  // contains beam.filters.simple.slidingwindowfilter as maxfilter2;
+
+  @BeamFilter
+  contains beam.fork.single2dual as joiner;
+
+  @BeamFilter
+  contains beam.filters.simple.dualintdumper as dumper;
+
+  @BeamFifo(fifosize=10)
+  binds generator.out to forker.in;
+
+  @BeamFifo(fifosize=10)
+  binds forker.out1 to maxfilter1.in;
+  // @BeamFifo(fifosize=10)
+  // binds forker.out to maxfilter2.in;
+
+  @BeamFifo(fifosize=10)
+  binds maxfilter1.out to joiner.in1;
+  @BeamFifo(fifosize=10)
+  binds forker.out2 to joiner.in2;
+
+  @BeamFifo(fifosize=10)
+  binds joiner.out to dumper.in;
+}
