@@ -25,16 +25,16 @@ The "beamc" assembly project now creates an archive with the "beam-backend" and 
 You will need to manually copy from your maven cache the following dependencies (jars) to your "ext" folder to make the plugins work:
 - Those directly concerning BIP in beam-backend/externals (*.jar)
 - Their own dependencies :
--- org.mod4j.org.eclipse.emf:ecore:2.5.0
--- org.mod4j.org.eclipse.core:runtime:3.5.0
--- org.mod4j.org.eclipse:osgi:3.5.0
--- org.mod4j.org.eclipse.equinox:common:3.5.0
--- org.mod4j.org.eclipse.core:jobs:3.4.100
--- org.mod4j.org.eclipse.equinox:registry:3.4.100
--- org.mod4j.org.eclipse.equinox:preferences:3.2.300
--- org.mod4j.org.eclipse.core:contenttype:3.4.0
--- org.mod4j.org.eclipse.equinox:app:1.2.0
--- org.mod4j.org.eclipse.emf:common:2.5.0
+  - org.mod4j.org.eclipse.emf:ecore:2.5.0
+  - org.mod4j.org.eclipse.core:runtime:3.5.0
+  - org.mod4j.org.eclipse:osgi:3.5.0
+  - org.mod4j.org.eclipse.equinox:common:3.5.0
+  - org.mod4j.org.eclipse.core:jobs:3.4.100
+  - org.mod4j.org.eclipse.equinox:registry:3.4.100
+  - org.mod4j.org.eclipse.equinox:preferences:3.2.300
+  - org.mod4j.org.eclipse.core:contenttype:3.4.0
+  - org.mod4j.org.eclipse.equinox:app:1.2.0
+  - org.mod4j.org.eclipse.emf:common:2.5.0
 
 All dependencies (Maven and manual BIP ones) should be configured to be packaged automatically thanks to the bin-release.xml file.
 
