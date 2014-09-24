@@ -10,7 +10,10 @@ endif
 all: helloworld
 
 helloworld: build
-	bash -x $(MINDC) -src-path=src -o=build helloworld.HelloworldApplication:hw
+	$(MINDC) --src-path=src --src-path=beam-comp-library -o=build helloworld.HelloworldApplication:hw
+
+graph: build
+	$(MINDC) --src-path=src --src-path=beam-comp-library -o=build "dot.DumpComponentDot<helloworld.HelloworldApplication>"
 
 build:
 	mkdir -p build
