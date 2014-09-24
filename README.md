@@ -1,7 +1,7 @@
 dataflow-bip
 ============
 
-The Dataflow BIP plugin developed during the Minalogic collaborative project, by Verimag and ST Microelectronics.
+The Dataflow BIP plugin developed during the Minalogic collaborative project, by Verimag and ST Microelectronics, adapted for the 2.1 compiler.
 
 What to expect from this repository
 -----------------------------------
